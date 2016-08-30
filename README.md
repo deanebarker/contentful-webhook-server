@@ -72,7 +72,7 @@ Alternately, you can write a method and bind it through the `WebhookBinding` att
 
 Before use, this method must be "discovered."  The easiest way is to call the global auto-register method in `Application_Start`:
 
-    WebhookDispatcher.AutoRegister();
+    WebhookDispatcher.AutoRegisterHandlers();
 
 That will inspect all currently loaded assemblies in the AppDomain, and all unloaded assemblies in the `bin` folder (pass in an alternate path as a string, if you have another location).
 
