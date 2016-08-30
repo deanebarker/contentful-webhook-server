@@ -84,7 +84,7 @@ You can mass-register by `Type`. All methods in the type will be inspected as ab
 
     WebhookDispatcher.AutoRegisterHandlers(typeof(MyWebhookHandlerMethods));
 
-Or my single assembly. All types in the assembly will be inspected as above.
+Or by single assembly. All types in the assembly will be inspected as above.
 
     WebhookDispatcher.AutoRegisterHandlers(Assembly.GetExecutingAssembly());
  
