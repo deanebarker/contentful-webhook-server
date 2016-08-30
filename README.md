@@ -29,7 +29,7 @@ This can be in any controller/action and should exist just fine in among your ot
 
 Authentication and filtering to Contentful IP ranges is _not_ handled by this library. That is left for you to implement and manage through provided options in the ASP.NET MVC stack.
 
-Once the dispatcher is mapping to a controller action, you are free to register "handlers" to respond to inbound webhooks.  A handler is simply a C# method of a specific signature.  You write the method, then "register" it with the dispatcher.
+Once the dispatcher is mapped to a controller action, you are free to register "handlers" to respond to inbound webhooks.  A handler is simply a C# method of a specific signature.  You write the method, then "register" it with the dispatcher.
 
 A handler is a _static_ method of this signature:
 
@@ -44,8 +44,8 @@ Once the handler is written, register it by one of two methods.
 Call the static method `WebhookDispatcher.RegisterHandler`.  The arguments are:
 
 1. **The name.** This is internal only, for logging and debugging.
-2. **The webhook topic** for which is method should execute.  "*" is a wildcard for all.
-3. **The webhook name** topic for which is method should execute.  "*" is a wildcard for all.
+2. **The webhook topic** for which this method should execute.  "*" is a wildcard for all.
+3. **The webhook name** for which this method should execute.  "*" is a wildcard for all.
 4. **The handler method** itself, as a `Func<WebhookEventArgs, WebhookHandlerLogEntry>`
 
 Example:
