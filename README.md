@@ -76,15 +76,15 @@ Before use, this method must be "discovered."  The easiest way is to call the gl
 
 That will inspect all currently loaded assemblies in the AppDomain, and all unloaded assemblies in the `bin` folder (pass in an alternate path as a string, if you have another location).
 
-You can also register methods individually using a `MethodInfo` object:
+You can also register methods individually using a `MethodInfo` object. The method will be inspected for `WebhookBinding` attributes.
 
     WebhookDispatcher.RegisterHandler(this.GetType().GetMethod("DoSomething"));
 
-You can mass-register by `Type`, which will be inspected for any methods with a `WebhookBinding`:
+You can mass-register by `Type`. All methods in the type will be inspected as above.
 
     WebhookDispatcher.AutoRegisterHandlers(typeof(MyWebhookHandlerMethods));
 
-Or my specific assembly (all types in the assembly will be inspected):
+Or my single assembly. All types in the assembly will be inspected as above.
 
     WebhookDispatcher.AutoRegisterHandlers(Assembly.GetExecutingAssembly());
  
