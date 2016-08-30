@@ -8,12 +8,10 @@ To install:
 
 Add the `Webhooks.Core` project to your website solution, and add a reference from your website project. (Alternately, you can add a reference to the compiled DLL.)
 
-In any controller that returns an `ActionResult`, add the following:
-
+In any controller action that returns an `ActionResult`, add the following:
 
       var results = WebhookDispatcher.Process(new WebhookRequest(Request));
       return Json(results);
-
 
 Add _the URL to this action_ as your webhook URL in Contentful.  For example, if you have this:
 
