@@ -8,7 +8,7 @@ To install:
 
 Add the `Webhooks.Core` project to your website solution, and add a reference from your website project. (Alternately, you can add a reference to the compiled DLL.)
 
-In any controller action that returns an `ActionResult`, add the following:
+Create a new controller action that returns an `ActionResult`, and set the following as the body:
 
       var results = WebhookDispatcher.Process(new WebhookRequest(Request));
       return Json(results);
@@ -35,7 +35,7 @@ A handler is a _static_ method of this signature:
 
     Func<WebhookEventArgs, WebhookHandlerLogEntry>
 
-That is to say, it accepts a `WebhookEventArgs` object and returns a `WebhookHandlerLogEntry` object.  Whatever happens in between is up to you.
+That is to say, it accepts a `WebhookEventArgs` object and returns a `WebhookHandlerLogEntry` object.  Whatever happens in-between is up to you.
 
 Once the handler is written, register it by one of two methods.
 
