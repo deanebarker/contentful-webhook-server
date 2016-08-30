@@ -5,13 +5,13 @@ VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website", "Website\Website.csproj", "{DCE8591C-4AD9-4F18-BAE5-BA9765E51209}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{B5ECC764-9DD3-495E-89B9-B1D4AF8B6B04}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webhooks.Core", "Webhooks.Core\Webhooks.Core.csproj", "{B5ECC764-9DD3-495E-89B9-B1D4AF8B6B04}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{9796DCF8-795A-4500-A6A4-789AF7BD9A4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webhooks.SerializePublishedContent", "Webhooks.SerializePublishedContent\Webhooks.SerializePublishedContent.csproj", "{1399E15F-51EA-4AB6-9E19-3EF34009A4DD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webhooks.SerializePublishedContent", "Examples\Webhooks.SerializePublishedContent\Webhooks.SerializePublishedContent.csproj", "{1399E15F-51EA-4AB6-9E19-3EF34009A4DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webhooks.LogPublishEvents", "Webhooks.LogPublishEvents\Webhooks.LogPublishEvents.csproj", "{C90EDC30-79AB-431F-8688-A4CE9A45321A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webhooks.LogPublishEvents", "Examples\Webhooks.LogPublishEvents\Webhooks.LogPublishEvents.csproj", "{C90EDC30-79AB-431F-8688-A4CE9A45321A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

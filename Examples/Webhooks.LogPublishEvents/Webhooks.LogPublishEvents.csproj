@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1399E15F-51EA-4AB6-9E19-3EF34009A4DD}</ProjectGuid>
+    <ProjectGuid>{C90EDC30-79AB-431F-8688-A4CE9A45321A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Webhooks.SerializePublishedContent</RootNamespace>
-    <AssemblyName>Webhooks.SerializePublishedContent</AssemblyName>
+    <RootNamespace>Webhooks.LogPublishEvents</RootNamespace>
+    <AssemblyName>Webhooks.LogPublishEvents</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -41,11 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ContentSerializer.cs" />
+    <Compile Include="PublishEventLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj">
+    <ProjectReference Include="..\..\Webhooks.Core\Webhooks.Core.csproj">
       <Project>{b5ecc764-9dd3-495e-89b9-b1d4af8b6b04}</Project>
       <Name>Core</Name>
     </ProjectReference>

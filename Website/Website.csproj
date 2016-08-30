@@ -144,15 +144,15 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj">
+    <ProjectReference Include="..\Webhooks.Core\Webhooks.Core.csproj">
       <Project>{b5ecc764-9dd3-495e-89b9-b1d4af8b6b04}</Project>
       <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Webhooks.LogPublishEvents\Webhooks.LogPublishEvents.csproj">
+    <ProjectReference Include="..\Examples\Webhooks.LogPublishEvents\Webhooks.LogPublishEvents.csproj">
       <Project>{c90edc30-79ab-431f-8688-a4ce9a45321a}</Project>
       <Name>Webhooks.LogPublishEvents</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Webhooks.SerializePublishedContent\Webhooks.SerializePublishedContent.csproj">
+    <ProjectReference Include="..\Examples\Webhooks.SerializePublishedContent\Webhooks.SerializePublishedContent.csproj">
       <Project>{1399e15f-51ea-4ab6-9e19-3ef34009a4dd}</Project>
       <Name>Webhooks.SerializePublishedContent</Name>
     </ProjectReference>
