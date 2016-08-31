@@ -67,7 +67,23 @@ A handler can execute on a combination of these two values.
 2. A specific Name (and _any_ Topic)
 3. A combination of specific Topic and specific Name
 
-The `WebhookDispatcher` maintains an internal collection of all handlers and the crieria under which each should execute. When a webhook request is received, the request is compared to each handler and executed if the request matches the specified criteria.
+The `WebhookDispatcher` maintains an internal collection of all handlers and the crieria under which each should execute. When a webhook request is received, the request is evaluated by each handler. The handler is executed if the request matches its specified criteria.
+
+The actual collection is a `List<WebhookHandler>`. It can be visualized like this:
+
+    [1] Name: "Webhook1"
+        ForTopic: "ContentManagement.Entry.publish"
+        ForName: "*"
+        Handler: [a Func<WebhookEventArgs, WebhookHandlerLogEntry> delegate]
+
+    [2] Name: "Webhook2"
+        ForTopic: "ContentManagement.Entry.auto_save"
+        ForName: "AutoSave for Blog Posts"
+        Handler: [a Func<WebhookEventArgs, WebhookHandlerLogEntry> delegate]
+
+    [etc]
+
+The inbound `WebRequestBase` (from the controller) is converted to a `WebhookRequest` which is succesively passed into `WebhookHandler.IsMatch` for each item in the collection. Matching handlers are executed.
 
 The specification of what combination of these values is required for a particular handler to execute is called "registering" a handler.  You "register" a handler to respond to one (or multiple) of the above scenarios. You do this in one of two ways...
 
