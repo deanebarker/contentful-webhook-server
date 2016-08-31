@@ -54,7 +54,7 @@ Whatever happens inside the handler is up to you.
 
 ### Matching Handlers to Webhooks
 
-When an inbound webhook request is received from Contentful, a handler will execute based on the Name and Topic the webhook presents with. A Contentful webhook request passes two HTTP headers which describe what has happened.
+A Contentful webhook request passes two HTTP headers which describe what has happened.
 
 For example:
 
@@ -67,9 +67,11 @@ A handler can execute on a combination of these two values.
 2. A specific Name (and _any_ Topic)
 3. A combination of specific Topic and specific Name
 
+The `WebhookDispatcher` maintains an internal collection of all handlers and the crieria under which each should execute. When a webhook request is received, the request is compared to each handler and executed if the request matches the specified criteria.
+
 The specification of what combination of these values is required for a particular handler to execute is called "registering" a handler.  You "register" a handler to respond to one (or multiple) of the above scenarios. You do this in one of two ways...
 
-### 1. Manual Handler Registration
+#### 1. Manual Handler Registration
 
 Call the static method `WebhookDispatcher.RegisterHandler`.  The arguments are:
 
@@ -90,7 +92,7 @@ Example of a webhook handler that will fire on _any_ webhook request received fr
 
 (**Note:** This will fire on any webhook request _received_. It's still up to you to configure Contentful to _send_ the webhooks you want, in response to specific events.  One pattern would be for Contentful to send a webhook on _all_ system events, then use various handlers to filter and process them. Some webhook requests wouldn't be processed at all and would simply pass through the system.  However, this would generate considerable traffic (especially from "auto\_save" events). A better pattern is to only send webhooks for events for which you _know_ handlers are waiting to execute.)
 
-### 2. Automatic Handler Registration
+#### 2. Automatic Handler Registration
 
 Alternately, you can write a method and decorate it with `WebhookBinding` attributes, like this:
 
