@@ -91,7 +91,7 @@ Or by single assembly. All types in the assembly will be inspected as above.
 
 Handlers should return a `WebhookHandlerLogEntry` object.  These will be aggregated, and sent back as a JSON array, which Contentful will store as the `body` of the webhook response.
 
-A handler can return `null` if no logging of that handler is desired. Null log entries will be ignored.
+A handler can return `null` if no logging of that handler is desired (if, for example, some internal logic causes the handler to exit without doing anything). Null log entries will be ignored.
 
 ### This Solution
 
@@ -100,3 +100,14 @@ This repository contains a single solution with multiple projects:
 1. **Webhooks.Core:** This is the core assembly.  The `Webhooks.Core.dll` file should be referenced in your website.
 2. **Website:** This is a simple website tester. It's a stripped down ASP.NET MVC project which hosts the server and should run directly from Visual Studio for testing. There are several binding examples in `global.asax.cs`
 3. **Examples:** Some examples provided webhooks are provided. If these are referenced from the Website project, they will be auto-registered.
+
+### To Do
+
+* Error handling/reporting
+* Logging
+* Weighting/priority, in the event Handler X needs to execute before Handler Y
+* Consistent settings access, so that shareable handlers (plugins?) can be written more easily
+* New example: SQL serialization
+* Consistent wrapping of data payload (I would rather not re-invent this wheel -- perhaps the Contentful .NET API already has this?)
+* Debugging reports -- at the very least, a way to see a list of handlers that will run for a particular topic/name combination
+* Easier handler access, so that handlers could expose logic as Lambdas, which can be reset with new logic from the "outside"
