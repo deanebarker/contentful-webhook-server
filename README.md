@@ -78,8 +78,8 @@ Bindings can be stacked. The same method will register once for every `WebhookBi
 
 Inside the method, the name/topic for which the handler is executing is accessible via the `ActiveHandler` property on the `WebhookEventArgs` object:
 
-    e.ActiveHandler.ContentfulTopic
-    e.ActiveHandler.ContentfulName
+    e.ActiveHandler.ForTopic
+    e.ActiveHandler.ForName
 
 Before use, this method must be "registered."  The easiest way is to call the global auto-register method in `Application_Start`:
 
@@ -104,6 +104,15 @@ Or by single assembly. All types in the assembly will be inspected as above.
 
 Handlers should return a `WebhookHandlerLogEntry` object.  These will be aggregated, and sent back as a JSON array, which Contentful will store as the `body` of the webhook response.
 
+The `WebhookHandlerLogEntry` object has two properties:
+
+1. **Source**: Where this log entry originated from. If left empty, this will populate with the registered name of the handler, or the Type.MethodName.  (It's generally expected that you'll let this auto-populate.)
+2. **Message**: Whatever information you want to log about the handler.
+
+The message can be set through the constructor:
+
+    return new WebhookHandlerLogEntry("This handler did something");
+
 A handler can return `null` if no logging of that handler is desired (if, for example, some internal logic causes the handler to exit without doing anything). Null log entries will be ignored.
 
 ### This Solution
@@ -119,6 +128,7 @@ This repository contains a single solution with multiple projects:
 * Unit tests
 * Error handling/reporting
 * Logging
+* Key/value pairs on the `WebhookHandlerLogEntry` object, to allow setting of structured information
 * Weighting/priority, in the event Handler X needs to execute before Handler Y
 * Consistent settings access, so that shareable handlers (plugins?) can be written more easily
 * New example: SQL serialization
