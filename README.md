@@ -88,9 +88,7 @@ Example of a webhook handler that will fire on _any_ webhook request received fr
       }
     );
 
-Note that this will fire on any webhook request _received_. It's still up to you to configure Contentful to _send_ the webhooks you want, in response to specific events.
-
-One pattern would be for Contentful to send a webhook on _all_ system events, then use various handlers to filter and process them. Some webhook requests wouldn't be processed at all and would simply pass through the system.  However, this would generate considerable traffic (especially from "auto\_save" events). A better pattern is to only send webhooks for events for which you _know_ handlers are waiting to execute.
+(**Note:** This will fire on any webhook request _received_. It's still up to you to configure Contentful to _send_ the webhooks you want, in response to specific events.  One pattern would be for Contentful to send a webhook on _all_ system events, then use various handlers to filter and process them. Some webhook requests wouldn't be processed at all and would simply pass through the system.  However, this would generate considerable traffic (especially from "auto\_save" events). A better pattern is to only send webhooks for events for which you _know_ handlers are waiting to execute.)
 
 ### 2. Automatic Handler Registration
 
@@ -115,7 +113,7 @@ Inside the handler method, the name/topic for which the handler is executing is 
     e.ActiveHandler.ForTopic
     e.ActiveHandler.ForName
 
-On application startup, the methods much be discovered for the system to automatically register them. The easiest way is to call the global auto-register method in `Application_Start`:
+On application startup, the methods must be discovered for the dispatcher to automatically register them. The easiest way is to call the global auto-register method in `Application_Start`:
 
     WebhookDispatcher.AutoRegisterHandlers();
 
