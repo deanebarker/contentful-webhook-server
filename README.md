@@ -127,11 +127,13 @@ This repository contains a single solution with multiple projects:
 
 * Unit tests
 * Error handling/reporting
-* Logging
+* Logging (perhaps just exposing events (below) would be enough, because the implementor could integrate that with their own logging infrastructure)
 * Basic events: `OnWebhookRegistering/ed`, `OnWebhookExecuting/ed`, `OnWebhookRequestProcessing/ed`
 * Key/value pairs on the `WebhookHandlerLogEntry` object, to allow setting of structured information
+* Default meta capture for `WebhookHandlerLogEntry`; timestamp, elapsed time to execute
 * Weighting/priority, in the event Handler X needs to execute before Handler Y
 * Consistent settings access, so that shareable handlers (plugins?) can be written more easily
+* Custom config for handler settings
 * New example: SQL serialization
 * Allow asynchronous execution of handlers?
 * Consistent wrapping of data payload (I would rather not re-invent this wheel -- perhaps the Contentful .NET API already has this?)
