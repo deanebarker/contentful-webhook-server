@@ -4,9 +4,9 @@ This is a server framework for fielding Contentful webhook requests. This does N
 
 _**Note:** Until this message is removed, this code is very, very alpha._
 
-To install:
-
 Add the `Webhooks.Core` project to your website solution, and add a reference from your website project. (Alternately, you can add a reference to the compiled DLL.)
+
+### Creating a URL Endpoint
 
 Create a new controller action that returns an `ActionResult`, and set the following as the body:
 
@@ -29,24 +29,54 @@ This can be in any controller/action and should exist just fine in among your ot
 
 Authentication and filtering to Contentful IP ranges is _not_ handled by this library. That is left for you to implement and manage through provided options in the ASP.NET MVC stack.
 
-Once the dispatcher is mapped to a controller action, you are free to register "handlers" to respond to inbound webhooks.  A handler is simply a C# method of a specific signature.  You write the method, then "register" it with the dispatcher.
+### Writing Handlers
 
-A handler is a _static_ method of this signature:
+Once the dispatcher is mapped to a controller action, you are free to write "handlers" which will execute in response to webhook requests.
 
-    Func<WebhookEventArgs, WebhookHandlerLogEntry>
+A handler is simply a static C# method of a specific signature.  You write the method, then "register" it with the dispatcher.
 
-That is to say, it accepts a `WebhookEventArgs` object and returns a `WebhookHandlerLogEntry` object.  Whatever happens in-between is up to you.
+The method must:
 
-Once the handler is written, register it by one of two methods.
+1. Be public
+2. Be static
+3. Accept a single argument: a `WebhookEventArgs` object
+4. Return a `WebhookHandlerLogEntry` object (or `null`)
 
-### Manual Handler Registration
+For example:
+
+    public static WebhookHandlerLogEntry DoSomething(WebhookEventArgs e)
+    {
+      // Magic happens here
+    }
+
+Whatever happens inside the handler is up to you.
+
+
+### Matching Handlers to Webhooks
+
+When an inbound webhook request is received from Contentful, a handler will execute based on the Name and Topic the webhook presents with. A Contentful webhook request passes two HTTP headers which describe what has happened.
+
+For example:
+
+    X-Contentful-Topic: [the name of the event]
+    X-Contentful-Webhook-Name: [the user-supplied name of the webhook]
+
+A handler can execute on a combination of these two values.
+
+1. A specific Topic (and _any_ Name)
+2. A specific Name (and _any_ Topic)
+3. A combination of specific Topic and specific Name
+
+This is called "registering" a webhook handler.  You "register" a handler to respond to one (or multiple) of the above scenarios. You do this in one of two ways...
+
+### 1. Manual Handler Registration
 
 Call the static method `WebhookDispatcher.RegisterHandler`.  The arguments are:
 
 1. **The name.** This is internal only, for logging and debugging.
 2. **The webhook topic** for which this method should execute.  "*" is a wildcard for all.
 3. **The webhook name** for which this method should execute.  "*" is a wildcard for all.
-4. **The handler method** itself, as a `Func<WebhookEventArgs, WebhookHandlerLogEntry>`
+4. **The handler method** itself, as a `Func<WebhookEventArgs, WebhookHandlerLogEntry>` delegate
 
 Example of a webhook handler that will fire on _any_ webhook request received from Contentful.
 
@@ -58,13 +88,13 @@ Example of a webhook handler that will fire on _any_ webhook request received fr
       }
     );
 
-Note that this will fire on any webhook request _received_. It's still up to you to configure Contentful to send the webhooks you want, in response to specific events.
+Note that this will fire on any webhook request _received_. It's still up to you to configure Contentful to _send_ the webhooks you want, in response to specific events.
 
-One pattern would be for Contentful to send a webhook on _all_ system events, then use various handlers to filter and process them. Some webhook requests wouldn't be processed at all and would simply pass through the system.  However, this would generate considerable traffic (especially from "auto_save" events). A better pattern is to only send webhooks for events for which you _know_ handlers are waiting to execute.
+One pattern would be for Contentful to send a webhook on _all_ system events, then use various handlers to filter and process them. Some webhook requests wouldn't be processed at all and would simply pass through the system.  However, this would generate considerable traffic (especially from "auto\_save" events). A better pattern is to only send webhooks for events for which you _know_ handlers are waiting to execute.
 
-### Auto Handler Registration
+### 2. Automatic Handler Registration
 
-Alternately, you can write a method and bind it through the `WebhookBinding` attribute, like this:
+Alternately, you can write a method and decorate it with `WebhookBinding` attributes, like this:
 
     [WebhookBinding("ContentManagement.Entry.publish")]
     public static WebhookHandlerLogEntry DoSomething(WebhookEventArgs e)
@@ -72,7 +102,7 @@ Alternately, you can write a method and bind it through the `WebhookBinding` att
         // Do something here
     }
 
-the `WebhookBinding` attribute takes a topic by default, with an option second argument for the name.
+The `WebhookBinding` attribute takes a topic by default, with an option second argument for the name.
 
 Bindings can be stacked. The same method will register once for every `WebhookBinding` provided:
 
@@ -80,12 +110,12 @@ Bindings can be stacked. The same method will register once for every `WebhookBi
     [WebhookBinding("ContentManagement.Entry.unpublish")]
     public static WebhookHandlerLogEntry DoSomething(WebhookEventArgs e)
 
-Inside the method, the name/topic for which the handler is executing is accessible via the `ActiveHandler` property on the `WebhookEventArgs` object:
+Inside the handler method, the name/topic for which the handler is executing is accessible via the `ActiveHandler` property on the `WebhookEventArgs` object:
 
     e.ActiveHandler.ForTopic
     e.ActiveHandler.ForName
 
-Before use, this method must be "registered."  The easiest way is to call the global auto-register method in `Application_Start`:
+On application startup, the methods much be discovered for the system to automatically register them. The easiest way is to call the global auto-register method in `Application_Start`:
 
     WebhookDispatcher.AutoRegisterHandlers();
 
@@ -106,6 +136,8 @@ Or by single assembly. All types in the assembly will be inspected as above.
 
 ### Logging
 
+Contentful will store the response from the webhook request in its log. Each handler which executes in reponse to a webhook request can return its own log entry to be stored.
+
 Handlers should return a `WebhookHandlerLogEntry` object.  These will be aggregated, and sent back as a JSON array, which Contentful will store as the `body` of the webhook response.
 
 The `WebhookHandlerLogEntry` object has two properties:
@@ -113,7 +145,7 @@ The `WebhookHandlerLogEntry` object has two properties:
 1. **Source**: Where this log entry originated from. If left empty, this will populate with the registered name of the handler, or the Type.MethodName.  (It's generally expected that you'll let this auto-populate.)
 2. **Message**: Whatever information you want to log about the handler.
 
-The message can be set through the constructor:
+The `Message` property can be set through the constructor:
 
     return new WebhookHandlerLogEntry("This handler did something");
 
@@ -138,6 +170,7 @@ This repository contains a single solution with multiple projects:
 * Weighting/priority, in the event Handler X needs to execute before Handler Y
 * Consistent settings access, so that shareable handlers (plugins?) can be written more easily
 * Custom config for handler settings
+* More handler registration logic: execute handler by type, by ID, etc.
 * New example: SQL serialization
 * Allow asynchronous execution of handlers?
 * Consistent wrapping of data payload (I would rather not re-invent this wheel -- perhaps the Contentful .NET API already has this?)
