@@ -116,11 +116,13 @@ This repository contains a single solution with multiple projects:
 
 ### To Do
 
+* Unit tests
 * Error handling/reporting
 * Logging
 * Weighting/priority, in the event Handler X needs to execute before Handler Y
 * Consistent settings access, so that shareable handlers (plugins?) can be written more easily
 * New example: SQL serialization
+* Allow asynchronous execution of handlers?
 * Consistent wrapping of data payload (I would rather not re-invent this wheel -- perhaps the Contentful .NET API already has this?)
 * Debugging reports -- at the very least, a way to see a list of handlers that will run for a particular topic/name combination
 * Easier handler access, so that handlers could expose logic as Lambdas, which can be reset with new logic from the "outside"
