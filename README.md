@@ -121,7 +121,7 @@ This repository contains a single solution with multiple projects:
 
 1. **Webhooks.Core:** This is the core assembly.  The `Webhooks.Core.dll` file should be referenced in your website.
 2. **Website:** This is a simple website tester. It's a stripped down ASP.NET MVC project which hosts the server and should run directly from Visual Studio for testing. There are several binding examples in `global.asax.cs`
-3. **Examples:** Some examples provided webhooks are provided. If these are referenced from the Website project, they will be auto-registered.
+3. **Examples:** Some example webhook handlers are provided which demonstrate basic functionality. If these are referenced from the Website project, they will be auto-registered.
 
 ### To Do
 
