@@ -48,15 +48,19 @@ Call the static method `WebhookDispatcher.RegisterHandler`.  The arguments are:
 3. **The webhook name** for which this method should execute.  "*" is a wildcard for all.
 4. **The handler method** itself, as a `Func<WebhookEventArgs, WebhookHandlerLogEntry>`
 
-Example:
+Example of a webhook handler that will fire on _any_ webhook request received from Contentful.
 
-    WebhookDispatcher.RegisterHandler("Name", "*", "*"
+    WebhookDispatcher.RegisterHandler("MyWebhookHandler", "*", "*",
      (e) => {
 	   // Do something here.
 	   // "e" is a WebhookEventArgs object.
 	   // The method must return a WebhookHandlerLogEntry (or null for no logging)
       }
     );
+
+Note that this will fire on any webhook request _received_. It's still up to you to configure Contentful to send the webhooks you want, in response to specific events.
+
+One pattern would be for Contentful to send a webhook on _all_ system events, then use various handlers to filter and process them. Some webhook requests wouldn't be processed at all and would simply pass through the system.  However, this would generate considerable traffic (especially from "auto_save" events). A better pattern is to only send webhooks for events for which you _know_ handlers are waiting to execute.
 
 ### Auto Handler Registration
 
