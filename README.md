@@ -46,7 +46,7 @@ For example:
 
     public static WebhookHandlerLogEntry DoSomething(WebhookEventArgs e)
     {
-      // Magic happens here
+      return new WebhookHandlerLogEntry("Amazing things happened...");
     }
 
 Whatever happens inside the handler is up to you.
