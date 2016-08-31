@@ -177,6 +177,7 @@ This repository contains a single solution with multiple projects:
 
 ### To Do
 
+* An included controller that can auto-configure so users can have an endpoint ready to go with just the included DLL and one line of code in `global.asax.cs`. Something like: `WebhookDispatcher.ConfigEndpoint("webhook")`
 * Unit tests
 * Error handling/reporting
 * Logging (perhaps just exposing events (below) would be enough, because the implementor could integrate that with their own logging infrastructure)
