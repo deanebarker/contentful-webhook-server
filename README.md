@@ -68,7 +68,20 @@ Alternately, you can write a method and bind it through the `WebhookBinding` att
         // Do something here
     }
 
-Before use, this method must be "discovered."  The easiest way is to call the global auto-register method in `Application_Start`:
+the `WebhookBinding` attribute takes a topic by default, with an option second argument for the name.
+
+Bindings can be stacked. The same method will register once for every `WebhookBinding` provided:
+
+    [WebhookBinding("ContentManagement.Entry.publish")]
+    [WebhookBinding("ContentManagement.Entry.unpublish")]
+    public static WebhookHandlerLogEntry DoSomething(WebhookEventArgs e)
+
+Inside the method, the name/topic for which the handler is executing is accessible via the `ActiveHandler` property on the `WebhookEventArgs` object:
+
+    e.ActiveHandler.ContentfulTopic
+    e.ActiveHandler.ContentfulName
+
+Before use, this method must be "registered."  The easiest way is to call the global auto-register method in `Application_Start`:
 
     WebhookDispatcher.AutoRegisterHandlers();
 
