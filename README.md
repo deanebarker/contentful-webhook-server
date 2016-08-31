@@ -128,6 +128,7 @@ This repository contains a single solution with multiple projects:
 * Unit tests
 * Error handling/reporting
 * Logging
+* Basic events: `OnWebhookRegistering/ed`, `OnWebhookExecuting/ed`, `OnWebhookRequestProcessing/ed`
 * Key/value pairs on the `WebhookHandlerLogEntry` object, to allow setting of structured information
 * Weighting/priority, in the event Handler X needs to execute before Handler Y
 * Consistent settings access, so that shareable handlers (plugins?) can be written more easily
