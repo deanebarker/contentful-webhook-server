@@ -67,7 +67,7 @@ A handler can execute on a combination of these two values.
 2. A specific Name (and _any_ Topic)
 3. A combination of specific Topic and specific Name
 
-This is called "registering" a webhook handler.  You "register" a handler to respond to one (or multiple) of the above scenarios. You do this in one of two ways...
+The specification of what combination of these values is required for a particular handler to execute is called "registering" a handler.  You "register" a handler to respond to one (or multiple) of the above scenarios. You do this in one of two ways...
 
 ### 1. Manual Handler Registration
 
